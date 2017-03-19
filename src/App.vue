@@ -1,22 +1,55 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <h1>{{ title }}</h1>
+    <input v-model="newItem" v-on:keyup.enter="addNew">
+    <ul>
+      <li v-for="item in items" :class="{ finished: item.isFinished }" v-on:click="toggleFinish(item)">
+        {{ item.label + item.isFinished}}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+    export default {
+      data : function(){
+        return {
+          title: "hello VUE !",
+          items: [
+            // {
+            //   label: 'coding',
+            //   isFinished: false
+            // },
+            // {
+            //   label: 'watchTV',
+            //   isFinished: true
+            // }
+          ],
+          newItem: ''
+        }
+      },
 
-export default {
-  name: 'app',
-  components: {
-    Hello
-  }
-}
+      methods : {
+        toggleFinish: function (item){
+          item.isFinished = !item.isFinished
+        },
+        addNew: function (){
+          this.items.push({
+            label: this.newItem,
+            isFinished: false
+          });
+          console.log(this.newItem);
+          this.newItem = '';
+        }
+      }
+
+    }
 </script>
 
 <style>
+.finished{
+  text-decoration: underline;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
