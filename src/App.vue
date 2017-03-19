@@ -11,11 +11,14 @@
 </template>
 
 <script>
+    import Stroe from './store'
+    console.log(Stroe);
+
     export default {
       data : function(){
         return {
-          title: "hello VUE !",
-          items: [],
+          title: "HELLO VUE !",
+          items: Stroe.fetch(),
           newItem: ''
         }
       },
@@ -29,15 +32,26 @@
             label: this.newItem,
             isFinished: false
           });
-          console.log(this.newItem);
           this.newItem = '';
         }
+      },
+
+      watch: {
+          // 深度 watcher
+          items: {
+            handler: function (items) { 
+              console.log(items);
+              Stroe.save(items);
+            },
+            deep: true
+          }
       }
 
     }
 </script>
 
 <style>
+
 *{
   margin: 0;
   padding: 0;
